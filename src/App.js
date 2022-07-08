@@ -1,49 +1,69 @@
 import { useState } from "react";
-import './App.css';
+import "./App.css";
 
-const Display = ({greeting, count}) => {
+const Header = (props) => {
   return (
     <div>
-      <h3>{greeting}</h3>
-      <p>{count}</p>
+      <h3>{ props.title}</h3>
     </div>
   )
-}
+};
 
-const Hello = ({ name, age }) => {
-  const bornYear = () =>  new Date().getFullYear() - age;
-  
+const Statistics = ({good, bad, neutral}) => {
+  const countAll = () => {
+    return good + neutral + bad;
+  }
+
+  const countAverage = () => {
+    return ((good + neutral) - bad) / 3
+  }
+
+  const calculatePositive = () => {
+    return (good + neutral) / (good + bad + neutral) * 100
+  }
   return (
     <div>
-      <p>
-        Hello {name}, you are {age} years old
-      </p>
-      <p>So you were probable born in { bornYear()}</p>
-    </div>
+        <p>Good: { good}</p>
+        <p>Neutral: { neutral}</p>
+        <p>Bad: {bad}</p>
+        <p>All: {countAll()}</p>
+        <p>Average: {countAverage()}</p>
+        <p>Positive: {calculatePositive()}</p>
+        
+      </div>
   )
 }
 
-const Button = ({ count, text}) => {
-  return (
-    <button onClick={count}>{text}</button>
-  )
-}
 
 const App = () => {
-  const name = 'Peter'
-  const age = 10;
-  const [count, setCount] = useState(0);
+  const [good, setGood] = useState(0);
+  
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
+  const countGood = () => {
+    setGood(good + 1);
+  };
+
+  const countNeutral = () => {
+    setNeutral(neutral + 1);
+  };
+
+  const countBad = () => {
+    setBad(bad + 1);
+  }
+  const condition = good !== 0 || bad !== 0 || neutral !== 0;
   return (
     <div className="App">
-      <Display count={count} greeting="Greetings" />
+      <Header title="Give Feedback" />
       <div>
-        <Button text="increaseCount" count={ () => setCount(count + 1)} />
-        <Button text="ResetCount" count={ () =>setCount(0)} />
-        </div>
-      <Hello name="Maya" age={26 + 10} />
-      <Hello name={name} age={age} />
+        <button onClick={countGood}>good</button>
+        <button onClick={countNeutral}>neutral</button>
+        <button onClick={countBad}>bad</button>
+      </div>
+      {condition && <Statistics good={ good} bad={bad} neutral={neutral} />}
+      {/* <Content /> */}
     </div>
-  )
-}
+  );
+};
 export default App;
