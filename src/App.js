@@ -1,74 +1,49 @@
-// import logo from './logo.svg';
-// import './App.css';
+import { useState } from "react";
+import './App.css';
 
-const Header = (props) => {
+const Display = ({greeting, count}) => {
   return (
     <div>
-      <h2>{props.course}</h2>
-      {/* <Content /> */}
+      <h3>{greeting}</h3>
+      <p>{count}</p>
     </div>
-  );
-};
+  )
+}
 
-const Part = (props) => {
-  return (
-    <div>
-      <h5>Title: {props.part}</h5>
-    </div>
-  );
-};
-
-const Content = (props) => {
-  // const part1 = "Fundamentals of React";
-  // const part2 = "Using props to pass data";
-  // const part3 = "State of a component";
-  return (
-    <div>
-      <Part part={props.parts[0].name} />
-      <Part part={props.parts[1].name} />
-      <Part part={props.parts[2].name}/>
-    </div>
-  );
-};
-
-const Total = (props) => {
+const Hello = ({ name, age }) => {
+  const bornYear = () =>  new Date().getFullYear() - age;
+  
   return (
     <div>
       <p>
-        Total Number of Exercises:{" "}
-        {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}
+        Hello {name}, you are {age} years old
       </p>
+      <p>So you were probable born in { bornYear()}</p>
     </div>
-  );
-};
+  )
+}
+
+const Button = ({ count, text}) => {
+  return (
+    <button onClick={count}>{text}</button>
+  )
+}
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    }
-  ]
-
+  const name = 'Peter'
+  const age = 10;
+  const [count, setCount] = useState(0);
 
   return (
-    <div>
-      <Header course={course} />
-      <Content parts={parts} />
-      <Total
-        parts = {parts}
-      />
+    <div className="App">
+      <Display count={count} greeting="Greetings" />
+      <div>
+        <Button text="increaseCount" count={ () => setCount(count + 1)} />
+        <Button text="ResetCount" count={ () =>setCount(0)} />
+        </div>
+      <Hello name="Maya" age={26 + 10} />
+      <Hello name={name} age={age} />
     </div>
-  );
-};
-
+  )
+}
 export default App;
